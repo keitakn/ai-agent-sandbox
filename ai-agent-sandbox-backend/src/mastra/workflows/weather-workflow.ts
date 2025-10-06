@@ -58,6 +58,7 @@ const fetchWeather = createStep({
 
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=precipitation,weathercode&timezone=auto,&hourly=precipitation_probability,temperature_2m`;
     const response = await fetch(weatherUrl);
+    // External API response type (snake_case from Open-Meteo API)
     const data = (await response.json()) as {
       current: {
         time: string;
@@ -65,7 +66,9 @@ const fetchWeather = createStep({
         weathercode: number;
       };
       hourly: {
+        // biome-ignore lint/style/useNamingConvention: External API uses snake_case
         precipitation_probability: number[];
+        // biome-ignore lint/style/useNamingConvention: External API uses snake_case
         temperature_2m: number[];
       };
     };
