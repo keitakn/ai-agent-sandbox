@@ -160,3 +160,90 @@ processUser(orderId); // エラー: 'OrderId' 型は 'UserId' 型に割り当て
 - ユーザーID、注文ID などの識別子
 - メールアドレス、URL などの特定フォーマットの文字列
 - 通貨金額、パーセンテージなどの特定の意味を持つ数値
+
+## ファイル命名規則
+
+ファイル名には **ケバブケース（kebab-case）** を使用してください。
+
+```
+✅ 推奨
+weather-tool.ts
+weather-workflow.ts
+weather-agent.ts
+user-service.ts
+order-repository.ts
+
+❌ 非推奨
+weatherTool.ts (camelCase)
+WeatherTool.ts (PascalCase)
+weather_tool.ts (スネークケース)
+```
+
+**理由:**
+- URLとの親和性が高い
+- 大文字小文字を区別しないファイルシステムでも安全
+- 可読性が高い
+- プロジェクト全体での一貫性を保つ
+
+## 変数命名規約
+
+### 汎用的な名前を避ける
+
+`data` のような曖昧な変数名は禁止です。意味が伝わる名称を使用してください。
+
+```typescript
+// ❌ 非推奨
+const data = await fetchUser();
+const validatedData = schema.parse(input);
+
+// ✅ 推奨
+const email = await fetchUserEmail();
+const validatedEmail = schema.parse(input);
+const responseBody = await response.json();
+const userProfile = await fetchUserProfile();
+```
+
+### キャメルケースを使用
+
+TypeScript / JavaScript の変数・プロパティはキャメルケースに統一します。
+
+```typescript
+// ❌ 非推奨
+const user_id = "123";
+const user_ids = ["123", "456"];
+const enable_web_search = true;
+
+// ✅ 推奨
+const userId = "123";
+const userIds = ["123", "456"];
+const enableWebSearch = true;
+```
+
+### 外部APIとの境界層で変換
+
+外部 API が snake_case を要求する場合は境界層で変換し、内部ではキャメルケースを維持します。
+
+```typescript
+// 外部APIレスポンスの型定義（snake_case）
+type ExternalApiResponse = {
+  user_id: string;
+  created_at: string;
+  is_active: boolean;
+};
+
+// 内部で使用する型（camelCase）
+type User = {
+  readonly userId: string;
+  readonly createdAt: string;
+  readonly isActive: boolean;
+};
+
+// 境界層で変換する関数
+function convertToUser(external: ExternalApiResponse): User {
+  return {
+    userId: external.user_id,
+    createdAt: external.created_at,
+    isActive: external.is_active,
+  };
+}
+```
