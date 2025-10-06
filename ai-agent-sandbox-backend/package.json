@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "mastra dev",
     "build": "mastra build",
-    "start": "mastra start"
+    "start": "mastra start",
+    "lint": "ultracite lint",
+    "format": "ultracite format"
   },
   "keywords": [],
   "author": "",
@@ -25,8 +27,10 @@
     "zod": "4.1.11"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.4",
     "@types/node": "24.6.2",
     "mastra": "0.14.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "ultracite": "5.4.3"
   }
 }
