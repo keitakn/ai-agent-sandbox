@@ -6,3 +6,4 @@ dist
 .env
 *.db
 *.db-*
+.claude/settings.local.json
