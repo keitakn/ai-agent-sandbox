@@ -7,8 +7,10 @@
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start",
-    "lint": "ultracite check",
-    "format": "ultracite fix"
+    "lint:prettier": "prettier --check --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
+    "prettier": "prettier --write --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
+    "lint": "ultracite check && npm run lint:prettier",
+    "format": "ultracite fix && npm run prettier"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +32,7 @@
     "@biomejs/biome": "2.2.4",
     "@types/node": "24.6.2",
     "mastra": "0.14.1",
+    "prettier": "3.6.2",
     "typescript": "5.9.3",
     "ultracite": "5.4.3"
   }
