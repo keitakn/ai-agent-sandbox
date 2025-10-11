@@ -6,8 +6,10 @@
     "dev": "next dev -p 7777 --turbopack",
     "build": "next build --turbopack",
     "start": "next start -p 7777",
-    "lint": "biome check",
-    "format": "biome format --write"
+    "lint:prettier": "prettier --check --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
+    "prettier": "prettier --write --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
+    "lint": "ultracite check && npm run lint:prettier",
+    "format": "ultracite fix && npm run prettier"
   },
   "dependencies": {
     "next": "15.5.4",
@@ -20,6 +22,7 @@
     "@types/node": "24.7.2",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.1",
+    "prettier": "3.6.2",
     "tailwindcss": "4.1.14",
     "typescript": "5.9.3",
     "ultracite": "5.6.2"
