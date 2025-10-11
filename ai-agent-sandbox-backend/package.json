@@ -7,8 +7,8 @@
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start",
-    "lint": "ultracite lint",
-    "format": "ultracite format"
+    "lint": "ultracite check",
+    "format": "ultracite fix"
   },
   "keywords": [],
   "author": "",
