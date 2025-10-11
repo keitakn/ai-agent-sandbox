@@ -81,10 +81,13 @@ type User = {
 
 // ✅ ユニオン型やプリミティブ型のエイリアスも type
 type Status = "pending" | "approved" | "rejected";
-type ApiResponse<T> = { success: true; data: T } | { success: false; error: string };
+type ApiResponse<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
 ```
 
 **理由:**
+
 - コードベース全体で一貫したスタイルを維持
 - ユニオン型・インターセクション型との統一性
 - Linter (Ultracite/Biome) の推奨に準拠
@@ -114,6 +117,7 @@ type State = {
 ```
 
 **理由:**
+
 - 意図しない変更を防ぐ
 - イミュータブルなデータフローを促進
 - バグの早期発見
@@ -151,12 +155,14 @@ processUser(orderId); // エラー: 'OrderId' 型は 'UserId' 型に割り当て
 ```
 
 **理由:**
+
 - プリミティブ型の誤用を防ぐ
 - 異なる種類のIDの混同を防止
 - コンパイル時に型エラーを検出
 - ドメインモデルの明確化
 
 **適用すべきケース:**
+
 - ユーザーID、注文ID などの識別子
 - メールアドレス、URL などの特定フォーマットの文字列
 - 通貨金額、パーセンテージなどの特定の意味を持つ数値
@@ -180,6 +186,7 @@ weather_tool.ts (スネークケース)
 ```
 
 **理由:**
+
 - URLとの親和性が高い
 - 大文字小文字を区別しないファイルシステムでも安全
 - 可読性が高い
