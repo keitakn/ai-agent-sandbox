@@ -39,9 +39,9 @@ https://playbooks.com/rules/tailwind4
 ```
 
 - Use updated package names:
-    - PostCSS plugin: `@tailwindcss/postcss` (not `tailwindcss`)
-    - CLI: `@tailwindcss/cli`
-    - Vite plugin: `@tailwindcss/vite`
+  - PostCSS plugin: `@tailwindcss/postcss` (not `tailwindcss`)
+  - CLI: `@tailwindcss/cli`
+  - Vite plugin: `@tailwindcss/vite`
 
 ## Theme Configuration
 
@@ -56,13 +56,13 @@ https://playbooks.com/rules/tailwind4
 ```
 
 - Available CSS variable namespaces:
-    - `--color-*`: Colors (e.g., `--color-blue-500`)
-    - `--font-*`: Font families (e.g., `--font-sans`)
-    - `--text-*`: Font sizes (e.g., `--text-xl`)
-    - `--font-weight-*`: Font weights (e.g., `--font-weight-bold`)
-    - `--spacing-*`: Spacing values (e.g., `--spacing-4`)
-    - `--radius-*`: Border radius (e.g., `--radius-md`)
-    - `--shadow-*`: Box shadows (e.g., `--shadow-lg`)
+  - `--color-*`: Colors (e.g., `--color-blue-500`)
+  - `--font-*`: Font families (e.g., `--font-sans`)
+  - `--text-*`: Font sizes (e.g., `--text-xl`)
+  - `--font-weight-*`: Font weights (e.g., `--font-weight-bold`)
+  - `--spacing-*`: Spacing values (e.g., `--spacing-4`)
+  - `--radius-*`: Border radius (e.g., `--radius-md`)
+  - `--shadow-*`: Box shadows (e.g., `--shadow-lg`)
 
 - Override entire namespaces or the whole theme:
 
@@ -70,7 +70,7 @@ https://playbooks.com/rules/tailwind4
 @theme {
   /* Override all font variables */
   --font-*: initial;
-  
+
   /* Override the entire theme */
   --*: initial;
 }
@@ -107,7 +107,9 @@ https://playbooks.com/rules/tailwind4
 
 ```html
 <!-- Enable 3D transforms -->
-<div class="transform-3d rotate-x-12 rotate-y-6 translate-z-4 perspective-distant">
+<div
+  class="transform-3d rotate-x-12 rotate-y-6 translate-z-4 perspective-distant"
+>
   3D transformed element
 </div>
 
@@ -123,9 +125,7 @@ https://playbooks.com/rules/tailwind4
 
 ```html
 <!-- Linear gradient with specific angle -->
-<div class="bg-linear-45 from-blue-500 to-purple-500">
-  45-degree gradient
-</div>
+<div class="bg-linear-45 from-blue-500 to-purple-500">45-degree gradient</div>
 
 <!-- Gradient with specific color space interpolation -->
 <div class="bg-linear-to-r/oklch from-blue-500 to-red-500">
@@ -164,9 +164,7 @@ https://playbooks.com/rules/tailwind4
 </div>
 
 <!-- Target elements that are not in a specific state -->
-<div class="not-first:mt-4">
-  Margin top on all but first item
-</div>
+<div class="not-first:mt-4">Margin top on all but first item</div>
 
 <!-- Target specific nth-child positions -->
 <ul>
@@ -174,9 +172,7 @@ https://playbooks.com/rules/tailwind4
 </ul>
 
 <!-- Target all descendants -->
-<div class="**:text-gray-800">
-  All text inside is gray-800
-</div>
+<div class="**:text-gray-800">All text inside is gray-800</div>
 ```
 
 ## Custom Extensions
@@ -218,14 +214,10 @@ https://playbooks.com/rules/tailwind4
 
 ```html
 <!-- Old way -->
-<div class="bg-[--brand-color]">
-  Using CSS variable
-</div>
+<div class="bg-[--brand-color]">Using CSS variable</div>
 
 <!-- New way -->
-<div class="bg-(--brand-color)">
-  Using CSS variable
-</div>
+<div class="bg-(--brand-color)">Using CSS variable</div>
 ```
 
 - Use renamed utilities:
