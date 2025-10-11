@@ -9,7 +9,8 @@
     "lint:prettier": "prettier --check --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
     "prettier": "prettier --write --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
     "lint": "ultracite check && npm run lint:prettier",
-    "format": "ultracite fix && npm run prettier"
+    "format": "ultracite fix && npm run prettier",
+    "sync:agents-docs": "npx tsx src/scripts/copyAgentsMarkdown.ts"
   },
   "dependencies": {
     "next": "15.5.4",
