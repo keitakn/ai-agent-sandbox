@@ -20,7 +20,7 @@
 
 **以下に記載例を示します。**
 
-@src/mastra/index.ts（src/mastra/index.ts を参照）
+@src/app/page.tsx（src/app/page.tsx を参照）
 @docs/basic-coding-guidelines.md （docs/basic-coding-guidelines.md を参照）
 
 ## プロジェクト概要
