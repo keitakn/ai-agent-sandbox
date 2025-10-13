@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .claude/settings.local.json
+
+# ユーザーがAIエージェントに対して依頼する際のpromptを保存する場所
+user-prompt
