@@ -21,10 +21,17 @@ import {
   PopoverTrigger,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { useTheme } from "next-themes";
 import { AcmeIcon } from "./acme";
 import NotificationsCard from "./notifications-card";
 
 export default function SimpleNavbar() {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
     <Navbar
       classNames={{
@@ -87,10 +94,17 @@ export default function SimpleNavbar() {
           </Button>
         </NavbarItem>
         <NavbarItem className="hidden sm:flex">
-          <Button isIconOnly radius="full" variant="light">
+          <Button
+            isIconOnly
+            onPress={toggleTheme}
+            radius="full"
+            variant="light"
+          >
             <Icon
               className="text-default-500"
-              icon="solar:sun-linear"
+              icon={
+                theme === "light" ? "solar:sun-linear" : "solar:moon-linear"
+              }
               width={24}
             />
           </Button>
