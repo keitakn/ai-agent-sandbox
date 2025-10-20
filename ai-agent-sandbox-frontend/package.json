@@ -17,10 +17,13 @@
     "framer-motion": "12.23.24",
     "next": "15.5.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "recharts": "3.3.0",
+    "usehooks-ts": "3.1.1"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
+    "@iconify/react": "6.0.2",
     "@tailwindcss/postcss": "4.1.14",
     "@types/node": "24.7.2",
     "@types/react": "19.2.2",
