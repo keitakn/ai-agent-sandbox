@@ -131,7 +131,10 @@ export default function SimpleNavbar() {
         <NavbarItem className="px-2">
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
-              <button className="mt-1 h-8 w-8 outline-hidden transition-transform">
+              <button
+                className="mt-1 h-8 w-8 outline-hidden transition-transform"
+                type="button"
+              >
                 <Badge
                   className="border-transparent"
                   color="success"

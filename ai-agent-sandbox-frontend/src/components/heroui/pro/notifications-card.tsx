@@ -27,11 +27,7 @@ type Notification = {
   type?: "default" | "request" | "file";
 };
 
-enum NotificationTabs {
-  All = "all",
-  Unread = "unread",
-  Archive = "archive",
-}
+type NotificationTabs = "all" | "unread" | "archive";
 
 const notifications: Record<NotificationTabs, Notification[]> = {
   all: [
@@ -118,9 +114,7 @@ const notifications: Record<NotificationTabs, Notification[]> = {
 };
 
 export default function Component(props: CardProps) {
-  const [activeTab, setActiveTab] = React.useState<NotificationTabs>(
-    NotificationTabs.All
-  );
+  const [activeTab, setActiveTab] = React.useState<NotificationTabs>("all");
 
   const activeNotifications = notifications[activeTab];
 
@@ -207,14 +201,10 @@ export default function Component(props: CardProps) {
         </ScrollShadow>
       </CardBody>
       <CardFooter className="justify-end gap-2 px-4">
-        <Button
-          variant={activeTab === NotificationTabs.Archive ? "flat" : "light"}
-        >
+        <Button variant={activeTab === "archive" ? "flat" : "light"}>
           Settings
         </Button>
-        {activeTab !== NotificationTabs.Archive && (
-          <Button variant="flat">Archive All</Button>
-        )}
+        {activeTab !== "archive" && <Button variant="flat">Archive All</Button>}
       </CardFooter>
     </Card>
   );
