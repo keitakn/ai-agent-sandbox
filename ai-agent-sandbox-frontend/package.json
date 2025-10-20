@@ -10,9 +10,11 @@
     "prettier": "prettier --write --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md,mdx}'",
     "lint": "ultracite check && npm run lint:prettier",
     "format": "ultracite fix && npm run prettier",
-    "sync:agents-docs": "npx tsx src/scripts/copyAgentsMarkdown.ts"
+    "sync:agents-docs": "npx tsx src/scripts/copy-agents-markdown.ts"
   },
   "dependencies": {
+    "@heroui/react": "2.8.5",
+    "framer-motion": "12.23.24",
     "next": "15.5.4",
     "react": "19.2.0",
     "react-dom": "19.2.0"
