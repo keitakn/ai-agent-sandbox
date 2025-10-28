@@ -1,5 +1,7 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import { INITIAL_VIEWPORTS } from "storybook/viewport";
+import { Providers } from "@/components/heroui/providers";
+import "@/app/globals.css";
 
 const preview: Preview = {
   parameters: {
@@ -19,6 +21,13 @@ const preview: Preview = {
       options: INITIAL_VIEWPORTS,
     },
   },
+  decorators: [
+    (Story) => (
+      <Providers>
+        <Story />
+      </Providers>
+    ),
+  ],
 };
 
 export default preview;
