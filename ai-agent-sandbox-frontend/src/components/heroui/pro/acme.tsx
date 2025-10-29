@@ -1,12 +1,10 @@
-import type React from "react";
-import type { IconSvgProps } from "../../../../../../../Downloads/basic-navigation-header/types";
+import type { FC, SVGProps } from "react";
 
-export const AcmeIcon: React.FC<IconSvgProps> = ({
-  size = 32,
-  width,
-  height,
-  ...props
-}) => (
+type Props = SVGProps<SVGSVGElement> & {
+  size?: number;
+};
+
+export const AcmeIcon: FC<Props> = ({ size = 32, width, height, ...props }) => (
   <svg
     fill="none"
     height={size || height}

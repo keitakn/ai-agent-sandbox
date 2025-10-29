@@ -44,3 +44,6 @@ next-env.d.ts
 
 # ユーザーがAIエージェントに対して依頼する際のpromptを保存する場所
 user-prompt
+
+*storybook.log
+storybook-static
