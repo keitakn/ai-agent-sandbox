@@ -66,9 +66,7 @@ const fetchWeather = createStep({
         weathercode: number;
       };
       hourly: {
-        // biome-ignore lint/style/useNamingConvention: External API uses snake_case
         precipitation_probability: number[];
-        // biome-ignore lint/style/useNamingConvention: External API uses snake_case
         temperature_2m: number[];
       };
     };

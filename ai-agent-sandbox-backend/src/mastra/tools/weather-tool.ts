@@ -13,17 +13,11 @@ type GeocodingResponse = {
 type WeatherResponse = {
   current: {
     time: string;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     temperature_2m: number;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     apparent_temperature: number;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     relative_humidity_2m: number;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     wind_speed_10m: number;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     wind_gusts_10m: number;
-    // biome-ignore lint/style/useNamingConvention: External API uses snake_case
     weather_code: number;
   };
 };
