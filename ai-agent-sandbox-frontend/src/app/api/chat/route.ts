@@ -9,11 +9,14 @@ export async function POST(req: Request) {
 
   const upstream = await fetch(`${MASTRA_BASE_URL}/chat`, {
     method: "POST",
-    headers: { "content-type": "application/json", "accept": "text/event-stream" },
+    headers: {
+      "content-type": "application/json",
+      accept: "text/event-stream",
+    },
     body: JSON.stringify(payload),
   });
 
-  if (!upstream.ok || !upstream.body) {
+  if (!(upstream.ok && upstream.body)) {
     const text = await upstream.text().catch(() => "");
     return new Response(JSON.stringify({ error: text || "upstream error" }), {
       status: upstream.status,

@@ -1,30 +1,34 @@
+// 絶対厳守：編集前に必ずAI実装ルールを読む
+
 "use client";
 
-import { PropsWithChildren, useEffect, useState, type FC } from "react";
-import Image from "next/image";
-import { XIcon, PlusIcon, FileText } from "lucide-react";
 import {
   AttachmentPrimitive,
   ComposerPrimitive,
   MessagePrimitive,
-  useAssistantState,
   useAssistantApi,
+  useAssistantState,
 } from "@assistant-ui/react";
+import { FileText, PlusIcon, XIcon } from "lucide-react";
+import Image from "next/image";
+import { type FC, type PropsWithChildren, useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
+import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { cn } from "@/lib/utils";
+
+const AVATAR_IMAGE_FALLBACK_DELAY_MS = 200;
 
 const useFileSrc = (file: File | undefined) => {
   const [src, setSrc] = useState<string | undefined>(undefined);
@@ -47,18 +51,25 @@ const useFileSrc = (file: File | undefined) => {
 };
 
 const useAttachmentSrc = () => {
-  const { file, src } = useAssistantState(
+  const { file, src: remoteImageSrc } = useAssistantState(
     useShallow(({ attachment }): { file?: File; src?: string } => {
-      if (attachment.type !== "image") return {};
-      if (attachment.file) return { file: attachment.file };
-      const src = attachment.content?.filter((c) => c.type === "image")[0]
-        ?.image;
-      if (!src) return {};
-      return { src };
-    }),
+      if (attachment.type !== "image") {
+        return {};
+      }
+      if (attachment.file) {
+        return { file: attachment.file };
+      }
+      const imageContentSrc = attachment.content?.find(
+        (content) => content.type === "image"
+      )?.image;
+      if (!imageContentSrc) {
+        return {};
+      }
+      return { src: imageContentSrc };
+    })
   );
 
-  return useFileSrc(file) ?? src;
+  return useFileSrc(file) ?? remoteImageSrc;
 };
 
 type AttachmentPreviewProps = {
@@ -69,17 +80,17 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <Image
-      src={src}
       alt="Image Preview"
-      width={1}
-      height={1}
       className={
         isLoaded
           ? "aui-attachment-preview-image-loaded block h-auto max-h-[80vh] w-auto max-w-full object-contain"
           : "aui-attachment-preview-image-loading hidden"
       }
+      height={1}
       onLoadingComplete={() => setIsLoaded(true)}
       priority={false}
+      src={src}
+      width={1}
     />
   );
 };
@@ -87,17 +98,19 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
 const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
   const src = useAttachmentSrc();
 
-  if (!src) return children;
+  if (!src) {
+    return children;
+  }
 
   return (
     <Dialog>
       <DialogTrigger
-        className="aui-attachment-preview-trigger cursor-pointer transition-colors hover:bg-accent/50"
         asChild
+        className="aui-attachment-preview-trigger cursor-pointer transition-colors hover:bg-accent/50"
       >
         {children}
       </DialogTrigger>
-      <DialogContent className="aui-attachment-preview-dialog-content p-2 sm:max-w-3xl [&_svg]:text-background [&>button]:rounded-full [&>button]:bg-foreground/60 [&>button]:p-1 [&>button]:opacity-100 [&>button]:!ring-0 [&>button]:hover:[&_svg]:text-destructive">
+      <DialogContent className="aui-attachment-preview-dialog-content [&>button]:!ring-0 p-2 sm:max-w-3xl [&>button]:rounded-full [&>button]:bg-foreground/60 [&>button]:p-1 [&>button]:opacity-100 [&_svg]:text-background [&>button]:hover:[&_svg]:text-destructive">
         <DialogTitle className="aui-sr-only sr-only">
           Image Attachment Preview
         </DialogTitle>
@@ -111,18 +124,18 @@ const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
 
 const AttachmentThumb: FC = () => {
   const isImage = useAssistantState(
-    ({ attachment }) => attachment.type === "image",
+    ({ attachment }) => attachment.type === "image"
   );
   const src = useAttachmentSrc();
 
   return (
     <Avatar className="aui-attachment-tile-avatar h-full w-full rounded-none">
       <AvatarImage
-        src={src}
         alt="Attachment preview"
         className="aui-attachment-tile-image object-cover"
+        src={src}
       />
-      <AvatarFallback delayMs={isImage ? 200 : 0}>
+      <AvatarFallback delayMs={isImage ? AVATAR_IMAGE_FALLBACK_DELAY_MS : 0}>
         <FileText className="aui-attachment-tile-fallback-icon size-8 text-muted-foreground" />
       </AvatarFallback>
     </Avatar>
@@ -134,7 +147,7 @@ const AttachmentUI: FC = () => {
   const isComposer = api.attachment.source === "composer";
 
   const isImage = useAssistantState(
-    ({ attachment }) => attachment.type === "image",
+    ({ attachment }) => attachment.type === "image"
   );
   const typeLabel = useAssistantState(({ attachment }) => {
     const type = attachment.type;
@@ -145,9 +158,10 @@ const AttachmentUI: FC = () => {
         return "Document";
       case "file":
         return "File";
-      default:
+      default: {
         const _exhaustiveCheck: never = type;
         throw new Error(`Unknown attachment type: ${_exhaustiveCheck}`);
+      }
     }
   });
 
@@ -157,23 +171,23 @@ const AttachmentUI: FC = () => {
         className={cn(
           "aui-attachment-root relative",
           isImage &&
-            "aui-attachment-root-composer only:[&>#attachment-tile]:size-24",
+            "aui-attachment-root-composer only:[&>#attachment-tile]:size-24"
         )}
       >
         <AttachmentPreviewDialog>
           <TooltipTrigger asChild>
-            <div
+            <button
+              aria-label={`${typeLabel} attachment`}
               className={cn(
                 "aui-attachment-tile size-14 cursor-pointer overflow-hidden rounded-[14px] border bg-muted transition-opacity hover:opacity-75",
                 isComposer &&
-                  "aui-attachment-tile-composer border-foreground/20",
+                  "aui-attachment-tile-composer border-foreground/20"
               )}
-              role="button"
               id="attachment-tile"
-              aria-label={`${typeLabel} attachment`}
+              type="button"
             >
               <AttachmentThumb />
-            </div>
+            </button>
           </TooltipTrigger>
         </AttachmentPreviewDialog>
         {isComposer && <AttachmentRemove />}
@@ -185,51 +199,41 @@ const AttachmentUI: FC = () => {
   );
 };
 
-const AttachmentRemove: FC = () => {
-  return (
-    <AttachmentPrimitive.Remove asChild>
-      <TooltipIconButton
-        tooltip="Remove file"
-        className="aui-attachment-tile-remove absolute top-1.5 right-1.5 size-3.5 rounded-full bg-white text-muted-foreground opacity-100 shadow-sm hover:!bg-white [&_svg]:text-black hover:[&_svg]:text-destructive"
-        side="top"
-      >
-        <XIcon className="aui-attachment-remove-icon size-3 dark:stroke-[2.5px]" />
-      </TooltipIconButton>
-    </AttachmentPrimitive.Remove>
-  );
-};
+const AttachmentRemove: FC = () => (
+  <AttachmentPrimitive.Remove asChild>
+    <TooltipIconButton
+      className="aui-attachment-tile-remove hover:!bg-white absolute top-1.5 right-1.5 size-3.5 rounded-full bg-white text-muted-foreground opacity-100 shadow-sm [&_svg]:text-black hover:[&_svg]:text-destructive"
+      side="top"
+      tooltip="Remove file"
+    >
+      <XIcon className="aui-attachment-remove-icon size-3 dark:stroke-[2.5px]" />
+    </TooltipIconButton>
+  </AttachmentPrimitive.Remove>
+);
 
-export const UserMessageAttachments: FC = () => {
-  return (
-    <div className="aui-user-message-attachments-end col-span-full col-start-1 row-start-1 flex w-full flex-row justify-end gap-2">
-      <MessagePrimitive.Attachments components={{ Attachment: AttachmentUI }} />
-    </div>
-  );
-};
+export const UserMessageAttachments: FC = () => (
+  <div className="aui-user-message-attachments-end col-span-full col-start-1 row-start-1 flex w-full flex-row justify-end gap-2">
+    <MessagePrimitive.Attachments components={{ Attachment: AttachmentUI }} />
+  </div>
+);
 
-export const ComposerAttachments: FC = () => {
-  return (
-    <div className="aui-composer-attachments mb-2 flex w-full flex-row items-center gap-2 overflow-x-auto px-1.5 pt-0.5 pb-1 empty:hidden">
-      <ComposerPrimitive.Attachments
-        components={{ Attachment: AttachmentUI }}
-      />
-    </div>
-  );
-};
+export const ComposerAttachments: FC = () => (
+  <div className="aui-composer-attachments mb-2 flex w-full flex-row items-center gap-2 overflow-x-auto px-1.5 pt-0.5 pb-1 empty:hidden">
+    <ComposerPrimitive.Attachments components={{ Attachment: AttachmentUI }} />
+  </div>
+);
 
-export const ComposerAddAttachment: FC = () => {
-  return (
-    <ComposerPrimitive.AddAttachment asChild>
-      <TooltipIconButton
-        tooltip="Add Attachment"
-        side="bottom"
-        variant="ghost"
-        size="icon"
-        className="aui-composer-add-attachment size-[34px] rounded-full p-1 text-xs font-semibold hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30"
-        aria-label="Add Attachment"
-      >
-        <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
-      </TooltipIconButton>
-    </ComposerPrimitive.AddAttachment>
-  );
-};
+export const ComposerAddAttachment: FC = () => (
+  <ComposerPrimitive.AddAttachment asChild>
+    <TooltipIconButton
+      aria-label="Add Attachment"
+      className="aui-composer-add-attachment size-[34px] rounded-full p-1 font-semibold text-xs hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30"
+      side="bottom"
+      size="icon"
+      tooltip="Add Attachment"
+      variant="ghost"
+    >
+      <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
+    </TooltipIconButton>
+  </ComposerPrimitive.AddAttachment>
+);
