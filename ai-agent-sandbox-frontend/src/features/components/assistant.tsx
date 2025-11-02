@@ -8,6 +8,7 @@ import {
 import { Thread } from "@/components/assistant-ui/thread";
 import { ThreadList } from "@/components/assistant-ui/thread-list";
 
+// AIエージェントとチャット形式で対話を行うComponent
 export const Assistant = () => {
   const runtime = useChatRuntime({
     transport: new AssistantChatTransport({

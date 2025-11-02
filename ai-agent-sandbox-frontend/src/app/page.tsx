@@ -1,5 +1,5 @@
 import SimpleNavbar from "@/components/heroui/pro/simple-navbar";
-import {Assistant} from "@/app/assistant";
+import {Assistant} from "@/features/components/assistant";
 
 export default function Home() {
   return (
