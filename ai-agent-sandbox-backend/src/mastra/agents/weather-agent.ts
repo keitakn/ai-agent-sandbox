@@ -20,7 +20,7 @@ export const weatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: openai("gpt-5"),
+  model: openai("gpt-4o-mini"),
   tools: { weatherTool },
   memory: new Memory({
     storage: new LibSQLStore({
