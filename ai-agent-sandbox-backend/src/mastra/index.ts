@@ -1,3 +1,4 @@
+import { chatRoute } from "@mastra/ai-sdk";
 import { Mastra } from "@mastra/core/mastra";
 import { LibSQLStore } from "@mastra/libsql";
 import { PinoLogger } from "@mastra/loggers";
@@ -15,4 +16,13 @@ export const mastra = new Mastra({
     name: "Mastra",
     level: "info",
   }),
+  server: {
+    apiRoutes: [
+      chatRoute({
+        // Mastra が公開するAI SDK v5互換エンドポイント
+        path: "/chat",
+        agent: "weatherAgent",
+      }),
+    ],
+  },
 });

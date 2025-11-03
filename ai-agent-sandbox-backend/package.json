@@ -22,19 +22,20 @@
     "node": ">=20.9.0"
   },
   "dependencies": {
-    "@ai-sdk/openai": "2.0.42",
-    "@mastra/core": "0.20.0",
-    "@mastra/libsql": "0.15.1",
-    "@mastra/loggers": "0.10.15",
-    "@mastra/memory": "0.15.5",
-    "zod": "4.1.11"
+    "@ai-sdk/openai": "2.0.59",
+    "@mastra/ai-sdk": "0.2.5",
+    "@mastra/core": "0.23.3",
+    "@mastra/libsql": "0.16.1",
+    "@mastra/loggers": "0.10.18",
+    "@mastra/memory": "0.15.10",
+    "zod": "4.1.12"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.2",
-    "@types/node": "24.6.2",
-    "mastra": "0.14.1",
+    "@types/node": "24.9.2",
+    "mastra": "0.17.7",
     "prettier": "3.6.2",
     "typescript": "5.9.3",
-    "ultracite": "6.0.5"
+    "ultracite": "6.1.0"
   }
 }
