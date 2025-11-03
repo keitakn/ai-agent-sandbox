@@ -12,7 +12,9 @@
     "format": "ultracite fix && npm run prettier",
     "sync:agents-docs": "npx tsx src/scripts/copy-agents-markdown.ts",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test:storybook": "vitest run --project storybook",
+    "test": "vitest run --project unit"
   },
   "dependencies": {
     "@ai-sdk/openai": "2.0.59",
